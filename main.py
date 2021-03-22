@@ -7,7 +7,11 @@ os.system('clear')
 #img = cv2.imread('image.jpeg')
 #cv2.imshow('image', img)
 def region_of_interest(frame):
-    height, width= frame.shape
+    try:
+        height, width= frame.shape
+    except ValueError:
+        height, width= frame.shape[:-1]
+
     mask = np.zeros_like(frame)
     #Cover not desired area
     polygon = np.array([[(0, height * 1/3), (width, height * 1/3),
@@ -36,7 +40,7 @@ while(cap.isOpened()):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     #Region of intenrest
-    roi_frame = region_of_interest(gray)
+    roi_frame = region_of_interest(hsv)
     if ret == True:
         #cv2.imshow('Frame', frame)
         #cv2.imshow('gray', gray)
